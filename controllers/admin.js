@@ -35,16 +35,16 @@ exports.getUsers = (req, res, next) => {
 };
 
 exports.postDeleteUser = async (req, res, next) => {
-  const prodId = req.body.productId;
+  const prodId = req.params.id;
  await User.findByPk(prodId)
   .then(users =>{
    return users.destroy()
 })
 .then(result =>{
-  console.log('PRODUCT DESTROYED')
+  res.status(200)
 })
-.catch(err => console.log(err));
-res.redirect('/admin/users');
+.catch(err => res.status(500).json({error: err}));
+//res.redirect('/admin/users');
  
 };
 

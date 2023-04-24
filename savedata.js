@@ -2,9 +2,9 @@ var form=document.getElementById('addForm')
 var itemList = document.getElementById('items');
 var i=0;
 // Form submit event
-//form.addEventListener('submit', saveItem);
+form.addEventListener('submit', saveItem);
 // Delete event
-//itemList.addEventListener('click', removeItem);
+itemList.addEventListener('click', removeItem);
 //edit event
 //itemList.addEventListener('click', editItem);
 
@@ -48,38 +48,13 @@ window.addEventListener("DOMContentLoaded",()=>{
     console.log(err)
   })
 })
-// Remove item
-// Remove item
+// save item
 function saveItem(e){
   e.preventDefault();
   var newName = document.getElementById('name').value;
   var newEmail = document.getElementById('email').value;
   var newphoneNumber = document.getElementById('phoneNumber').value;
-  var li = document.createElement('li');
-  // Add class
-  li.className = 'list-group-item';
-  li.id=i;
-  // Add text node with input value
-  li.appendChild(document.createTextNode(newName));
-  li.appendChild(document.createTextNode('  '));
-  li.appendChild(document.createTextNode(newEmail));
-  // Create del button element
-  var deleteBtn = document.createElement('button');
-
-  // Add classes to del button
-  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-
-  // Append text node
-  deleteBtn.appendChild(document.createTextNode('X'));
-
-  // Append button to li
-  li.appendChild(deleteBtn);
-  var editBtn = document.createElement('button');
-  editBtn.className = 'btn btn-warning btn-sm float-right warning';
-  editBtn.appendChild(document.createTextNode('Edit'));
-  li.appendChild(editBtn);
-  // Append li to list
-  itemList.appendChild(li);
+  
   
   console.log(newName);
   console.log(newEmail);
@@ -96,6 +71,28 @@ console.log(res)
 .catch((err)=>{
 console.log(err)
 })
+location.reload()
 }
+//remove item
+// Remove item
+function removeItem(e){
+  if(e.target.classList.contains('delete')){
+    if(confirm('Are You Sure?')){
+      var li = e.target.parentElement;
+      var idz=li.id;
+      console.log(idz)
+      itemList.removeChild(li);
+      axios.post('http://localhost:3000/admin/delete-user/'+idz)
+      .then((res)=>{
+          console.log(res)
+        })
+      .catch((err)=>{
+           console.log(err)
+      })
+
+    }
+  }
+}
+
 
 
